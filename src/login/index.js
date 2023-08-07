@@ -6,10 +6,12 @@
 // 1.1 准备项目和源代码
 // 1.2 准备 webpack 打包的环境
 // 1.3 运行自定义命令打包观察效果（npm run 自定义命令）
+// import './login.html'
 import 'bootstrap/dist/css/bootstrap.min.css'
-// import './index.css'
+// import './index.less'
 // import './index.scss'
 import './index.less'
+import '../common-css/common.less'
 
 
 checkCode('111111111111111111')
@@ -22,7 +24,6 @@ console.log(checkPhone('1111111111111111'))
  *  2.2 导出配置对象，配置入口，出口文件路径
  *  2.3 重新打包观察
  */
-
 /**
  * 目标3：用户登录-长度判断案例
  *  3.1 准备用户登录页面
@@ -165,10 +166,12 @@ console.log('1')
  *  14.1 webpack 中配置 DefinePlugin 插件
  *  14.2 前端代码使用，并在两个模式下使用，观察区别
  */
+
 // consolee.log('111')
 if (process.env.NODE_ENV==='production') {
     console.log=()=>{}
 }
+console.log('111')
 console.log("开发模式正确打印，生产模式不打印")
 
 /**

@@ -5,7 +5,8 @@
  *  1.3 展示到指定的标签结构中
  */
 // 1.1 准备查询参数对象
-import "./index.css"
+import '../common-css/common.less'
+import "./index.less"
 import axios from "@/utils/request"
 import "@/utils/auth"
 

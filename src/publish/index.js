@@ -3,6 +3,15 @@
  *  1.1 获取频道列表数据
  *  1.2 展示到下拉菜单中
  */
+
+import './index.less'
+import '../common-css/common.less'
+
+import '@/utils/auth'
+import axios from'@/utils/request'
+import {myAlert} from "@/utils/alert"
+import serialize from 'form-serialize'
+import editor from "@/utils/editor"
 // 1.1 获取频道列表数据
 async function setChannleList() {
   const res = await axios({

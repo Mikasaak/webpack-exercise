@@ -6,14 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack --mode=production",
-    "dev": "cross-env NODE_ENV=development webpack serve  --open-app-name='chrome' --mode=development"
+    "dev": "cross-env NODE_ENV=development webpack serve  --open-app-name='chrome' --mode=development",
+    "build-d": "cross-env NODE_ENV=development webpack --mode=development"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
+    "@babel/core": "^7.22.10",
+    "@babel/plugin-transform-runtime": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
     "babel-loader": "^9.1.3",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
@@ -23,15 +25,23 @@
     "less": "^4.2.0",
     "less-loader": "^11.1.3",
     "mini-css-extract-plugin": "^2.7.6",
+    "postcss": "^8.4.27",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^9.1.1",
+    "raw-loader": "^4.0.2",
     "sass": "^1.64.2",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.9",
+    "thread-loader": "^4.0.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@wangeditor/editor": "^5.1.23",
     "axios": "^1.4.0",
-    "bootstrap": "^5.3.1"
+    "bootstrap": "^5.3.1",
+    "form-serialize": "^0.7.2"
   }
 }
