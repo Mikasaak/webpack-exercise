@@ -16,6 +16,9 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),//输出文件夹
         filename: './[name]/index.js',//出口文件
+
+        chunkFilename:'./chunk-js/[name].chunk.js',//自定义webpack chuckName注释的文件 命名
+        assetModuleFilename:'./asset/media/[name][hash:10][ext][query]',//通过type：asset处理的资源的命名规则
         clean: true
     },
     devServer: {
@@ -31,7 +34,8 @@ const config = {
     },
     plugins: [//插件设置
         new MiniCssExtractPlugin({//提取css文件
-            filename: './[name]/index.css'
+            filename: './[name]/index.css',
+            chunkFilename:'./chunk-css/[name].chunk.css'//动态命名导入的css文件
         }),
 
         new HtmlWebpackPlugin({//网页包插件设置
@@ -52,7 +56,6 @@ const config = {
             useCdn: process.env.NODE_ENV === 'production',//生产模式下使用cdn
             chunks: ['publish', 'commons', 'style']
         }),
-
         //编译时 将你代码中的变量替换为其他值或表达式
         new webpack.DefinePlugin({//将左侧字符串替换成右侧的变量结果
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -152,14 +155,17 @@ const config = {
                             {
                                 loader: "thread-loader",
                                 options: {
-                                    workers: cpuCores-1//进程数量
+                                    workers: cpuCores - 1//进程数量
                                 }
                             },
                             {
                                 loader: 'babel-loader',
                                 options: {
                                     // presets: ['@babel/preset-env']
-                                    plugins: ["@babel/plugin-transform-runtime"],
+                                    plugins: ["@babel/plugin-transform-runtime"],//(减少代码体积)//避免重复注入,
+                                    // Polyfill 局限性:减少了全局污染和不必要的代码。相反，它会在需要的地方引入运行时函数。
+                                    // 辅助函数将被提取到运行时包中，使代码更干净，更易维护。
+
                                     cacheDirectory: true,//开启babel缓存
                                     cacheCompression: false//关闭缓存压缩
                                 }
@@ -171,7 +177,7 @@ const config = {
                         test: /\.(png|jpg|jpeg|gif)$/i,//图片文件的打包配置
                         type: 'asset',
                         generator: {
-                            filename: 'asset/img/[name][hash:10][ext][query]'
+                            filename: 'asset/images/[name][hash:10][ext][query]'
                         },
                         parser: {
                             dataUrlCondition: {
@@ -191,11 +197,37 @@ const config = {
             // process.env.NODE_ENV === 'production' ? new CssMinimizerPlugin():''//多此一举
             new CssMinimizerPlugin(),
             new TerserPlugin({
-                parallel: cpuCores-1//用于压缩的开启的进程数量
-            })
-
-
-        ],
+                parallel: cpuCores - 1//用于压缩的开启的进程数量
+            }),
+            // new ImageMinimizerPlugin({
+            //     minimizer: {
+            //         implementation: ImageMinimizerPlugin.imageminGenerate,
+            //         // Lossless optimization with custom option
+            //         // Feel free to experiment with options for better result for you
+            //         plugins: [
+            //             ["gifsicle", { interlaced: true }],
+            //             ["jpegtran", { progressive: true }],
+            //             ["optipng", { optimizationLevel: 5 }],
+            //             // Svgo configuration here https://github.com/svg/svgo#configuration
+            //             [
+            //                 "svgo",
+            //                 {
+            //                     plugins: [
+            //                         "preset-default",
+            //                         "prefixIds",
+            //                         {
+            //                             name: "sortAttrs",
+            //                             params: {
+            //                                 xmlnsOrder:"alphabetical",
+            //                             },
+            //                         },
+            //                     ],
+            //                 },
+            //             ],
+            //         ],
+            //     },
+            // }),
+            ],
         splitChunks: {
             chunks: 'all', // 所有模块动态非动态移入的都分割分析
             cacheGroups: { // 分隔组
