@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 const webpack = require('webpack')
 const os = require('os')
 const cpuCores = os.cpus().length
@@ -42,7 +43,7 @@ const config = {
             template: path.join(__dirname, 'src/login/login.html'),//源文件
             filename: path.join(__dirname, 'dist/login/index.html'), //目标文件
             useCdn: process.env.NODE_ENV === 'production',//生产模式下使用cdn
-            chunks: ['login', 'commons', 'style']
+            chunks: ['login', 'commons', 'style']//包含的chunk资源
         }),
         new HtmlWebpackPlugin({//网页包插件设置
             template: path.join(__dirname, 'src/content/content.html'),//源文件
@@ -60,6 +61,10 @@ const config = {
         new webpack.DefinePlugin({//将左侧字符串替换成右侧的变量结果
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         }),
+        new PreloadWebpackPlugin({
+            rel: 'preload',//preload:优先加载，只能加载当前页面用的//prefetch:空闲时加载，可以提前加载其他页面的资源
+            as: 'script'
+        })
 
     ],
 

@@ -89,6 +89,10 @@ document.querySelector('.form-select').addEventListener('change', e => {
 // 2.3 点击筛选时，传递查询参数对象到服务器
 document.querySelector('.sel-btn').addEventListener('click', () => {
   // 2.4 获取匹配数据，覆盖到页面展示
+  import(/* webpackChunkName: 'DynamicIntroduction' */'../utils/DynamicIntroduction').then(res=>{
+    console.log(res)
+    res.printf(1111)
+  })
   setArtileList()
 })
 
