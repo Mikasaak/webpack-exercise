@@ -18,11 +18,11 @@ const config = {
         path: path.resolve(__dirname, 'dist'),//输出文件夹
         filename: './[name]/index.js',//出口文件
 
-        chunkFilename:'./chunk-js/[name].chunk.js',//自定义webpack chuckName注释的文件 命名
+        chunkFilename:'./chunk-js/[name][contenthash:5].chunk.js',//自定义webpack chuckName注释的文件 命名
         assetModuleFilename:'./asset/media/[name][hash:10][ext][query]',//通过type：asset处理的资源的命名规则
         clean: true
     },
-    devServer: {
+    devServer: {//开发服务器
         static: './dist',//配置从目录提供静态文件的选项（默认是 'public' 文件夹）
         open: {
             target: ['login/index.html'],//设置打开的页面
@@ -196,7 +196,8 @@ const config = {
         ]
     },
     optimization: {//优化
-        minimizer: [//最小化
+        minimizer: [
+            //最小化
             // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
             `...`,
             // process.env.NODE_ENV === 'production' ? new CssMinimizerPlugin():''//多此一举
@@ -204,34 +205,6 @@ const config = {
             new TerserPlugin({
                 parallel: cpuCores - 1//用于压缩的开启的进程数量
             }),
-            // new ImageMinimizerPlugin({
-            //     minimizer: {
-            //         implementation: ImageMinimizerPlugin.imageminGenerate,
-            //         // Lossless optimization with custom option
-            //         // Feel free to experiment with options for better result for you
-            //         plugins: [
-            //             ["gifsicle", { interlaced: true }],
-            //             ["jpegtran", { progressive: true }],
-            //             ["optipng", { optimizationLevel: 5 }],
-            //             // Svgo configuration here https://github.com/svg/svgo#configuration
-            //             [
-            //                 "svgo",
-            //                 {
-            //                     plugins: [
-            //                         "preset-default",
-            //                         "prefixIds",
-            //                         {
-            //                             name: "sortAttrs",
-            //                             params: {
-            //                                 xmlnsOrder:"alphabetical",
-            //                             },
-            //                         },
-            //                     ],
-            //                 },
-            //             ],
-            //         ],
-            //     },
-            // }),
             ],
         splitChunks: {
             chunks: 'all', // 所有模块动态非动态移入的都分割分析
@@ -263,7 +236,10 @@ const config = {
                     }
                 }
             }
-        }
+        },
+        // runtimeChunk:{
+        //     name: (entry)=>(`runtime~${entry.name}`)
+        // }
     },
     resolve: {//解析
         alias: {// 别名

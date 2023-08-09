@@ -13,7 +13,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.less'
 import '../common-css/common.less'
 
-
+new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+        resolve('完成')
+    },0)
+}).then(res=>{
+    console.log(res)
+})
 checkCode('111111111111111111')
 checkPhone('1111111111111111')
 console.log(checkCode('111111111111111111'))
@@ -168,9 +174,9 @@ console.log('1')
  */
 
 // consolee.log('111')
-if (process.env.NODE_ENV==='production') {
-    console.log=()=>{}
-}
+// if (process.env.NODE_ENV==='production') {
+//     console.log=()=>{}
+// }
 console.log('111')
 console.log("开发模式正确打印，生产模式不打印")
 
